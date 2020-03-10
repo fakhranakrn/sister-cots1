@@ -1,35 +1,32 @@
 import paho.mqtt.client as mqtt
-
 import time
 import datetime
 
 def on_message(client, userdata, message):
-    # tulis hasil file yang didapat bernama "surf.jpg"
+    # tulis nama file dengan "myidol.jpg"
     f = open('myidol.jpg','wb')
     f.write(message.payload)
-    
-    #data = str(message.payload)
-    #f.write(data)
     f.close()
-
+    # menampilkan waktu diterimanya message
     print("message received ",str(message.payload.decode("utf-8")))
+    # t = open('history.txt','wb')
+    # t.write("message received ",str(message.payload.decode("utf-8")))
+    # t.close()
 
-broker_address="192.168.1.3"
+# alamat broker menggunakan IP address
+broker_address="172.16.18.80"
 
+# membuat client baru
 print("creating new instance")
 client = mqtt.Client("P2")
 
+# menyambungkan subscriber ke broker dengan port=3333
 print("connecting to broker", broker_address)
 client.connect(broker_address, port=3333)
 
+# subscribe topic "photo" dan "time"
 print("Subscribing to topic")
-client.subscribe([("photo",1),("waktu",2)])
-
-
-# loop forever
-# while True:
-#     # berikan waktu tunggu 1 detik 
-#     time.sleep(1)
+client.subscribe([("photo",1),("time",2)])
 
 client.on_message=on_message
 
