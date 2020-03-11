@@ -8,17 +8,12 @@ def on_message(client, userdata, message):
     f.write(message.payload)
     f.close()
     # menampilkan waktu diterimanya message
-    print("message received ",str(message.payload.decode("utf-8")))
+    # print("message received ",str(message.payload.decode("utf-8")))
+    # menyimpan history waktu pengiriman message ke 'history.txt'
     t = open('history.txt','a')
     t.write(str(message.payload.decode("utf-8")))
     t.write("\n")
     t.close()
-
-    # t = open("history.txt","w")
-    # for i in range(20):
-    #     t.write("message received ",str(message.payload.decode("utf-8")))
-    #     t.write("\n")
-    # t.close()
 
 # alamat broker menggunakan IP address
 broker_address="192.168.137.29"
@@ -37,9 +32,7 @@ client.loop_start()
 print("Subscribing to topic")
 client.subscribe([("photo",1),("waktu",2)])
 
-# t = open('history.txt','w')
 client.on_message=on_message
-# t.close()
 
 while True:
     time.sleep(1)
