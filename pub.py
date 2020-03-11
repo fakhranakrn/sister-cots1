@@ -1,16 +1,21 @@
 import paho.mqtt.client as mqtt
 import time
 import datetime
+import socket
 
 # alamat broker menggunakan IP address
 broker_address = "192.168.137.29"
-
 # membuat client baru
 print("creating new instance")
 client = mqtt.Client("P1")
 
+# melihat IP asal publisher
+host_name = socket.gethostname()
+host_ip = socket.gethostbyname(host_name)
+print("Publisher IP:",host_ip)
+
 # menyambungkan publish ke broker dengan port=3333
-print("connecting to broker", broker_address)
+print("connecting to broker")
 client.connect(broker_address,port=3333)
 
 client.loop_start()
@@ -20,7 +25,7 @@ for i in range (20):
     # sleep 1 detik
     time.sleep(1)
     # publish waktu sekarang
-    client.publish("waktu", str(datetime.datetime.now()) + " " + str(i))
+    client.publish("waktu", str(datetime.datetime.now()))
 
 print("read file")
 
