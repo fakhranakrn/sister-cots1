@@ -3,7 +3,7 @@ import time
 import datetime
 
 # alamat broker menggunakan IP address
-broker_address = "172.16.18.80"
+broker_address = "192.168.137.29"
 
 # membuat client baru
 print("creating new instance")
@@ -15,11 +15,12 @@ client.connect(broker_address,port=3333)
 
 client.loop_start()
 
+# mempublish topic time
 for i in range (20):
     # sleep 1 detik
     time.sleep(1)
     # publish waktu sekarang
-    client.publish("time", str(datetime.datetime.now()) + " " + str(i))
+    client.publish("waktu", str(datetime.datetime.now()) + " " + str(i))
 
 print("read file")
 
@@ -32,7 +33,7 @@ file = bytes(content)
 
 print("sending file")
 
-# mempublish topic
+# mempublish topic photo
 client.publish("photo",file)
 # menutup file
 f.close()

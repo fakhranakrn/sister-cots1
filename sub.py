@@ -9,12 +9,19 @@ def on_message(client, userdata, message):
     f.close()
     # menampilkan waktu diterimanya message
     print("message received ",str(message.payload.decode("utf-8")))
-    # t = open('history.txt','wb')
-    # t.write("message received ",str(message.payload.decode("utf-8")))
+    t = open('history.txt','a')
+    t.write(str(message.payload.decode("utf-8")))
+    t.write("\n")
+    t.close()
+
+    # t = open("history.txt","w")
+    # for i in range(20):
+    #     t.write("message received ",str(message.payload.decode("utf-8")))
+    #     t.write("\n")
     # t.close()
 
 # alamat broker menggunakan IP address
-broker_address="172.16.18.80"
+broker_address="192.168.137.29"
 
 # membuat client baru
 print("creating new instance")
@@ -24,12 +31,17 @@ client = mqtt.Client("P2")
 print("connecting to broker", broker_address)
 client.connect(broker_address, port=3333)
 
+client.loop_start()
+
 # subscribe topic "photo" dan "time"
 print("Subscribing to topic")
-client.subscribe([("photo",1),("time",2)])
+client.subscribe([("photo",1),("waktu",2)])
 
+# t = open('history.txt','w')
 client.on_message=on_message
+# t.close()
 
 while True:
-    client.loop(15)
-    time.sleep(2)
+    time.sleep(1)
+
+client.loop_stop()
